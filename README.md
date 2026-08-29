@@ -93,12 +93,30 @@ overcounted. Nothing in the method can inflate the figure.
 **It is not an accusation.** A `build.rs`, a devcontainer, a `preinstall` that
 compiles a native module — these are what those files are for. The finding is
 that the surface is large and nearly nothing looks at it, not that any
-particular project did something wrong. The write-up reports aggregates. The
-dataset is published in full so the work is reproducible; it is not a list to
-shame anyone with.
+particular project did something wrong.
 
-Anything that looks genuinely malicious rather than merely executable goes to
-the maintainer privately before it goes anywhere else.
+**The dataset names repositories. The write-up does not.** `dataset.jsonl`
+carries every repository by name with what was found in it, because a study
+whose aggregate cannot be recomputed is the kind of number this work exists to
+argue against. That is a deliberate trade, and it comes with a limit: this is
+not a ranking, not a shame list, and 2,503 named repositories running something
+on open is a description of how the ecosystem works, not of who is careless in
+it. Everything here is derived from public files in public repositories and can
+be reproduced by anyone with the tool and an afternoon.
+
+Anything that looked genuinely malicious rather than merely executable would go
+to the maintainer privately before it went anywhere else, and the launch would
+wait. Every immediate finding in this run was searched for the shapes that
+would qualify — a pipe from `curl` into a shell, base64 decoded and executed,
+`eval` over fetched data, a reverse shell, credentials read and sent somewhere,
+an encoded PowerShell command. What came back was one toolchain installer from
+a known vendor and four Gemfiles using the ordinary `eval(File.read(...))`
+idiom to load a local override. Nothing was disclosed because nothing needed to
+be.
+
+That absence is worth stating plainly: 2,503 repositories run something when
+you open them and, as far as this scan can tell, none of it is an attack. The
+finding is the size of the surface, not evidence that it is being used.
 
 ## Layout
 
