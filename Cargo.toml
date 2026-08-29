@@ -1,0 +1,27 @@
+[package]
+name = "onopen-study"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+description = "How many of GitHub's most popular repositories execute code when you open them."
+authors = ["Veltron"]
+license = "Apache-2.0"
+publish = false
+
+[dependencies]
+# The study runs the scanner as a library, so the numbers come from exactly the
+# tool a reader can `cargo install` — not from a reimplementation of its rules.
+onopen = { path = "../../onopen", version = "0.4" }
+
+anyhow = "1.0.104"
+clap = { version = "4.6.6", features = ["derive"] }
+rayon = "1.10.0"
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.151"
+ureq = { version = "3.1.2", features = ["json"] }
+
+[dev-dependencies]
+walkdir = "2.5.0"
+
+[profile.release]
+opt-level = 2

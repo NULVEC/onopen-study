@@ -1,0 +1,147 @@
+{
+  "onopen_version": "0.4.0",
+  "repos_scanned": 40,
+  "repos_complete": 39,
+  "repos_partial": 1,
+  "repos_with_immediate": 14,
+  "repos_with_any_finding": 21,
+  "repos_clean": 19,
+  "complete_with_immediate": 14,
+  "repos_with_agent_surface": 10,
+  "agent_surface_with_immediate": 8,
+  "findings_total": 346,
+  "by_severity": {
+    "deferred": 199,
+    "immediate": 62,
+    "note": 85
+  },
+  "repos_by_family": {
+    "agent": 5,
+    "cargo": 5,
+    "devcontainer": 6,
+    "direnv": 2,
+    "git": 9,
+    "mcp": 2,
+    "npm": 11,
+    "pnpm": 6,
+    "python": 9,
+    "vscode": 3
+  },
+  "repos_by_rule": {
+    "agent/broad-permission-allow": 3,
+    "agent/command-hook": 3,
+    "agent/cursor-command-hook": 1,
+    "cargo/build-script": 5,
+    "devcontainer/container-lifecycle-command": 6,
+    "devcontainer/feature": 4,
+    "direnv/environment-script": 2,
+    "git/checked-in-hook": 3,
+    "git/pre-commit-local-entry": 6,
+    "mcp/server-fetches-and-runs": 1,
+    "mcp/server-spawns-process": 1,
+    "npm/dependency-from-url": 5,
+    "npm/install-lifecycle-script": 9,
+    "npm/other-lifecycle-script": 6,
+    "pnpm/dependency-build-approval": 6,
+    "python/pytest-conftest": 6,
+    "python/setup-script": 5,
+    "python/sitecustomize": 1,
+    "vscode/launch-workspace-binary": 2,
+    "vscode/pre-launch-task": 2,
+    "vscode/task-run-on-folder-open": 1
+  },
+  "by_star_band": {
+    "50k+": {
+      "repos": 40,
+      "with_immediate": 14,
+      "with_agent_surface": 10
+    }
+  },
+  "by_language": {
+    "Batchfile": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "C": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "C++": {
+      "repos": 1,
+      "with_immediate": 1,
+      "with_agent_surface": 1
+    },
+    "Go": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "HTML": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "JavaScript": {
+      "repos": 3,
+      "with_immediate": 3,
+      "with_agent_surface": 2
+    },
+    "Jupyter Notebook": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Markdown": {
+      "repos": 2,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Python": {
+      "repos": 9,
+      "with_immediate": 2,
+      "with_agent_surface": 2
+    },
+    "Rust": {
+      "repos": 1,
+      "with_immediate": 1,
+      "with_agent_surface": 1
+    },
+    "Shell": {
+      "repos": 3,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "TypeScript": {
+      "repos": 8,
+      "with_immediate": 6,
+      "with_agent_surface": 3
+    },
+    "none": {
+      "repos": 8,
+      "with_immediate": 1,
+      "with_agent_surface": 1
+    }
+  },
+  "by_push_year": {
+    "2024": {
+      "repos": 3,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "2025": {
+      "repos": 2,
+      "with_immediate": 1,
+      "with_agent_surface": 0
+    },
+    "2026": {
+      "repos": 35,
+      "with_immediate": 13,
+      "with_agent_surface": 10
+    }
+  },
+  "repos_truncated": 1,
+  "repos_with_fetch_failures": 0,
+  "repos_with_unreadable_config": 0
+}

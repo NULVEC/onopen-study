@@ -1,0 +1,6 @@
+/target
+# The raw configuration files of other people's repositories. They are
+# reproducible from data/repos.jsonl and the pinned commit in each meta.json,
+# they run to gigabytes, and several of them are hostile by construction.
+/data/cache
+/data/verify
