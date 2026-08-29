@@ -15,9 +15,18 @@ const API: &str = "https://api.github.com";
 const RAW: &str = "https://raw.githubusercontent.com";
 const UA: &str = "onopen-study (+https://github.com/NULVEC/onopen)";
 
-/// Stop and wait while this many requests are left, rather than at zero. A
+/// How much of a quota to leave in reserve rather than spending to zero: a
 /// parallel fetch has requests already in flight when the counter is read.
-const RATE_FLOOR: u64 = 50;
+///
+/// It has to be a fraction, not a fixed count. GitHub runs several buckets with
+/// very different sizes — 5000 an hour for the API, 30 a minute for search — and
+/// a fixed floor of 50 is above the whole search budget, so every single search
+/// response looks like an exhausted quota and the client sleeps until the reset.
+/// That turns a five-minute census into a three-hour one while GitHub is
+/// throttling nothing at all.
+fn reserve_for(limit: u64) -> u64 {
+    (limit / 100).max(2)
+}
 
 pub struct Client {
     token: Option<String>,
@@ -306,14 +315,24 @@ impl Client {
 
     fn note_quota(&self, headers: &ureq::http::HeaderMap) {
         let get = |k: &str| -> Option<u64> { headers.get(k)?.to_str().ok()?.parse().ok() };
-        let (Some(remaining), Some(reset)) = (
+        let (Some(remaining), Some(reset), Some(limit)) = (
             get("x-ratelimit-remaining"),
             get("x-ratelimit-reset"),
+            get("x-ratelimit-limit"),
         ) else {
             return;
         };
         let mut slot = self.core_reset.lock().unwrap();
-        *slot = (remaining <= RATE_FLOOR).then(|| UNIX_EPOCH + Duration::from_secs(reset));
+        // Only ever move the wait later, never earlier: a search response
+        // carrying a reset one minute out must not cancel a wait the API bucket
+        // set an hour out.
+        let exhausted = remaining <= reserve_for(limit);
+        let until = UNIX_EPOCH + Duration::from_secs(reset);
+        *slot = match (*slot, exhausted) {
+            (Some(existing), _) if existing > until => Some(existing),
+            (_, true) => Some(until),
+            (existing, false) => existing.filter(|e| *e > SystemTime::now()),
+        };
     }
 
     fn wait_for_quota(&self) {
@@ -340,4 +359,20 @@ fn urlencode(s: &str) -> String {
             _ => format!("%{b:02X}"),
         })
         .collect()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// The bug this guards: a fixed reserve of 50 is larger than the entire
+    /// search budget, so every search response reads as an exhausted quota and
+    /// the client sleeps until the reset instead of carrying on.
+    #[test]
+    fn the_reserve_fits_inside_every_bucket() {
+        assert_eq!(reserve_for(5000), 50, "hourly API bucket keeps a real margin");
+        assert_eq!(reserve_for(30), 2, "search bucket keeps a margin it can afford");
+        assert!(reserve_for(30) < 30, "a reserve must never exceed its own budget");
+        assert!(reserve_for(10) < 10, "including the unauthenticated search budget");
+    }
 }
