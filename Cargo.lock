@@ -573,6 +573,8 @@ checksum = "384b8ab6d37215f3c5301a95a4accb5d64aa607f1fcb26a11b5303878451b4fe"
 [[package]]
 name = "onopen"
 version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "28c223045dc082cdf224a78a0327275fb20b1c51da2782acf9e7d1faf0bb6d58"
 dependencies = [
  "anyhow",
  "clap",

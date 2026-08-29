@@ -12,17 +12,37 @@ configuration files onopen knows how to read, and scans those. A study of what
 runs when you open a repository cannot be produced by opening ten thousand of
 them.
 
+## The answer, as of 2026-08-29
+
+Of the 10,000 most-starred public repositories on GitHub, 9,997 were scanned —
+three could not be fetched. Every one of them has at least 6,045 stars.
+
+| | |
+|---|---|
+| Execute something on open, on session start, or on install | **2,503 — 25.0%** |
+| Same, over the 9,808 scans that were complete | 2,414 — 24.6% |
+| Ship configuration for a coding agent | 879 — 8.8% |
+| **Of those, execute something** | **548 — 62.3%** |
+
+The likelihood rises with popularity rather than falling with it: 36.9% above
+50,000 stars, 30.6% between 20,000 and 50,000, 23.0% below that.
+
+Not fully readable, and therefore never counted clean: 60 truncated listings, 53
+failed downloads, 81 repositories with a config file nothing can parse.
+
+Full write-up: <https://veltron.cc/research/what-runs-when-you-open-a-repository>
+
 ## Running it
 
 ```sh
 export GITHUB_TOKEN=...          # a token with no scopes is enough; public data only
 
-cargo run --release -- sample --limit 10000   # the census        → data/repos.jsonl
-cargo run --release -- fetch                  # the config files  → data/cache/
-cargo run --release -- scan                   # what onopen found → data/scans/
-cargo run --release -- report                 # the numbers       → data/aggregate.json
-                                              #                   + data/dataset.jsonl
-cargo run --release -- verify --sample 20     # the honesty check
+cargo run --release --locked -- sample --limit 10000  # the census        → data/repos.jsonl
+cargo run --release --locked -- fetch                 # the config files  → data/cache/
+cargo run --release --locked -- scan                  # what onopen found → data/scans/
+cargo run --release --locked -- report                # the numbers       → data/aggregate.json
+                                                      #                   + data/dataset.jsonl
+cargo run --release --locked -- verify --sample 20    # the honesty check
 ```
 
 Every step is resumable. `fetch` skips repositories it has already completed, so
@@ -34,10 +54,12 @@ inside an afternoon on the standard 5000-requests-an-hour limit.
 
 ## Why the numbers can be trusted
 
-**The scanner is the published one.** `scan` calls `onopen::scan` and
-`Report::build` — the same two calls the `onopen` binary makes. Each row in
-`data/scans/` is byte-for-byte what `onopen --json` prints for those files. The
-study does not reimplement a single rule.
+**The scanner is the published one.** The dependency is `onopen = "0.4.0"` from
+crates.io, not a local checkout, and `Cargo.lock` is committed — so the version
+that produced these numbers is the one `cargo install onopen` gives you. `scan`
+calls `onopen::scan` and `Report::build` — the same two calls the binary makes.
+Each row in the dataset is byte-for-byte what `onopen --json` prints for those
+files. The study does not reimplement a single rule.
 
 **Every repository is pinned to a commit.** `fetch` records the SHA the listing
 came from and downloads every file at that SHA, so a re-run months later reads
