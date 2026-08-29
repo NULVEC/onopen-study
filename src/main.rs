@@ -306,10 +306,30 @@ fn report(data: &Path) -> Result<()> {
     }
     let agg = analyze::aggregate(&records);
 
+    // `data/scans/` is one file per repository because `scan` has to be
+    // resumable. That shape is right for the run and wrong for a reader: ten
+    // thousand files is not something anyone downloads to check a number. The
+    // published dataset is one line per repository, in the order the study
+    // reports them.
+    let dataset = data.join("dataset.jsonl");
+    {
+        use std::io::Write;
+        let mut w = std::io::BufWriter::new(std::fs::File::create(&dataset)?);
+        for record in &records {
+            writeln!(w, "{}", serde_json::to_string(record)?)?;
+        }
+        w.flush()?;
+    }
+
     let out = data.join("aggregate.json");
     std::fs::write(&out, serde_json::to_string_pretty(&agg)?)?;
     print!("{}", analyze::headline(&agg));
-    println!("\nwritten to {}", out.display());
+    println!(
+        "\nwritten to {} and {} ({} rows)",
+        out.display(),
+        dataset.display(),
+        records.len()
+    );
     Ok(())
 }
 
@@ -362,7 +382,14 @@ fn verify(data: &Path, sample: usize, only: &[String], max_size_kb: u64) -> Resu
     let work = data.join("verify");
     std::fs::create_dir_all(&work)?;
 
+    // Counted apart from `chosen`, because a repository that could not be
+    // cloned was never compared to anything. Reporting the size of the
+    // selection as the size of the evidence is how a verification tool comes to
+    // overstate what it checked, which is the one failure it cannot afford.
     let mut mismatches = 0;
+    let mut compared = 0;
+    let mut unchecked: Vec<(String, &str)> = Vec::new();
+
     for record in &chosen {
         // Reachable only via an explicit --repo; the automatic selection has
         // already excluded these.
@@ -371,6 +398,7 @@ fn verify(data: &Path, sample: usize, only: &[String], max_size_kb: u64) -> Resu
                 "  ? {} — the study could not read it in full, so it is not comparable",
                 record.repo.full_name
             );
+            unchecked.push((record.repo.full_name.clone(), "scan was partial"));
             continue;
         }
 
@@ -388,7 +416,8 @@ fn verify(data: &Path, sample: usize, only: &[String], max_size_kb: u64) -> Resu
             .status()
             .context("git clone — is git on PATH?")?;
         if !status.success() {
-            eprintln!("  ? {} — clone failed, skipped", record.repo.full_name);
+            println!("  ? {} — clone failed, not compared", record.repo.full_name);
+            unchecked.push((record.repo.full_name.clone(), "clone failed"));
             continue;
         }
 
@@ -403,12 +432,14 @@ fn verify(data: &Path, sample: usize, only: &[String], max_size_kb: u64) -> Resu
         let moved = clone_head(&dir).is_ok_and(|h| h != record.sha);
 
         if same {
+            compared += 1;
             println!("  ok {} ({} findings)", record.repo.full_name, fresh.findings.len());
         } else if moved {
             println!(
-                "  ? {} — repository moved since the fetch, not counted",
+                "  ? {} — repository moved since the fetch, not compared",
                 record.repo.full_name
             );
+            unchecked.push((record.repo.full_name.clone(), "moved since the fetch"));
         } else {
             mismatches += 1;
             println!("  MISMATCH {}", record.repo.full_name);
@@ -419,9 +450,19 @@ fn verify(data: &Path, sample: usize, only: &[String], max_size_kb: u64) -> Resu
     }
 
     if mismatches > 0 {
-        bail!("{mismatches} of {} repositories scanned differently from a real clone — the path filter is incomplete and the numbers are not publishable", chosen.len());
+        bail!(
+            "{mismatches} of {compared} compared repositories scanned differently from a real \
+             clone — the path filter is incomplete and the numbers are not publishable"
+        );
     }
-    println!("\n{} repositories scanned identically to a real clone", chosen.len());
+
+    println!("\n{compared} repositories scanned identically to a real clone");
+    for (name, why) in &unchecked {
+        println!("  not compared: {name} ({why})");
+    }
+    if compared == 0 {
+        bail!("nothing was compared, so nothing was verified");
+    }
     Ok(())
 }
 

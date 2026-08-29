@@ -21,6 +21,7 @@ cargo run --release -- sample --limit 10000   # the census        → data/repos
 cargo run --release -- fetch                  # the config files  → data/cache/
 cargo run --release -- scan                   # what onopen found → data/scans/
 cargo run --release -- report                 # the numbers       → data/aggregate.json
+                                              #                   + data/dataset.jsonl
 cargo run --release -- verify --sample 20     # the honesty check
 ```
 
@@ -85,7 +86,13 @@ src/github.rs    the only code that touches the network
 src/fetch.rs     rebuilding a scannable skeleton from a file listing
 src/analyze.rs   scans → the numbers the write-up quotes
 src/main.rs      the five steps
-data/            the census, the cache, the per-repository scans, the aggregate
+data/repos.jsonl    the census: which repositories, and how popular
+data/dataset.jsonl  the published dataset — one line per repository, carrying
+                    the commit it was read at and everything onopen found
+data/aggregate.json the numbers the write-up quotes
+data/cache/         downloaded config files, kept for re-scanning (not published)
+data/scans/         one scan per file so a run can resume; `report` bundles
+                    these into dataset.jsonl (not published on its own)
 ```
 
 Findings come from onopen. The number comes from `analyze.rs`. A figure in the

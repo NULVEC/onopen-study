@@ -4,3 +4,7 @@
 # they run to gigabytes, and several of them are hostile by construction.
 /data/cache
 /data/verify
+# One file per repository, written this way so `scan` can resume. The published
+# dataset is data/dataset.jsonl, which `report` bundles from these — ten
+# thousand loose files is not a thing anyone downloads to check a number.
+/data/scans

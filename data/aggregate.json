@@ -1,147 +1,802 @@
 {
   "onopen_version": "0.4.0",
-  "repos_scanned": 40,
-  "repos_complete": 39,
-  "repos_partial": 1,
-  "repos_with_immediate": 14,
-  "repos_with_any_finding": 21,
-  "repos_clean": 19,
-  "complete_with_immediate": 14,
-  "repos_with_agent_surface": 10,
-  "agent_surface_with_immediate": 8,
-  "findings_total": 346,
+  "repos_scanned": 9997,
+  "repos_complete": 9808,
+  "repos_partial": 189,
+  "repos_with_immediate": 2503,
+  "repos_with_any_finding": 4123,
+  "repos_clean": 5874,
+  "complete_with_immediate": 2414,
+  "repos_with_agent_surface": 879,
+  "agent_surface_with_immediate": 548,
+  "findings_total": 43743,
   "by_severity": {
-    "deferred": 199,
-    "immediate": 62,
-    "note": 85
+    "deferred": 28404,
+    "immediate": 6728,
+    "note": 8611
   },
   "repos_by_family": {
-    "agent": 5,
-    "cargo": 5,
-    "devcontainer": 6,
-    "direnv": 2,
-    "git": 9,
-    "mcp": 2,
-    "npm": 11,
-    "pnpm": 6,
-    "python": 9,
-    "vscode": 3
+    "agent": 203,
+    "bundler": 5,
+    "cargo": 503,
+    "composer": 57,
+    "devcontainer": 554,
+    "direnv": 150,
+    "emacs": 8,
+    "git": 987,
+    "jetbrains": 1,
+    "mcp": 172,
+    "mise": 2,
+    "nix": 113,
+    "npm": 1899,
+    "pnpm": 447,
+    "python": 1530,
+    "vim": 23,
+    "vscode": 371,
+    "yarn": 121
   },
   "repos_by_rule": {
-    "agent/broad-permission-allow": 3,
-    "agent/command-hook": 3,
-    "agent/cursor-command-hook": 1,
-    "cargo/build-script": 5,
-    "devcontainer/container-lifecycle-command": 6,
-    "devcontainer/feature": 4,
-    "direnv/environment-script": 2,
-    "git/checked-in-hook": 3,
-    "git/pre-commit-local-entry": 6,
-    "mcp/server-fetches-and-runs": 1,
-    "mcp/server-spawns-process": 1,
-    "npm/dependency-from-url": 5,
-    "npm/install-lifecycle-script": 9,
-    "npm/other-lifecycle-script": 6,
-    "pnpm/dependency-build-approval": 6,
-    "python/pytest-conftest": 6,
-    "python/setup-script": 5,
-    "python/sitecustomize": 1,
-    "vscode/launch-workspace-binary": 2,
-    "vscode/pre-launch-task": 2,
-    "vscode/task-run-on-folder-open": 1
+    "agent/broad-permission-allow": 97,
+    "agent/command-hook": 120,
+    "agent/cursor-command-hook": 14,
+    "agent/cursor-environment-command": 15,
+    "bundler/gemfile-executes-ruby": 5,
+    "cargo/build-script": 499,
+    "cargo/compiler-wrapper": 82,
+    "composer/lifecycle-script": 57,
+    "devcontainer/container-lifecycle-command": 466,
+    "devcontainer/feature": 330,
+    "devcontainer/host-initialize-command": 34,
+    "direnv/environment-script": 150,
+    "emacs/directory-local-eval": 8,
+    "git/checked-in-hook": 659,
+    "git/pre-commit-local-entry": 338,
+    "jetbrains/file-watcher": 1,
+    "mcp/remote-server": 65,
+    "mcp/server-fetches-and-runs": 72,
+    "mcp/server-spawns-process": 71,
+    "mise/automatic-hook": 2,
+    "nix/shell-hook": 113,
+    "npm/dependency-from-url": 508,
+    "npm/install-lifecycle-script": 1351,
+    "npm/other-lifecycle-script": 797,
+    "pnpm/dependency-build-approval": 438,
+    "pnpm/pnpmfile-hook": 25,
+    "python/local-build-backend": 20,
+    "python/pytest-conftest": 892,
+    "python/setup-script": 996,
+    "python/sitecustomize": 38,
+    "vim/project-rc": 23,
+    "vscode/launch-workspace-binary": 195,
+    "vscode/pre-launch-task": 214,
+    "vscode/setting-runs-binary": 57,
+    "vscode/task-run-on-folder-open": 13,
+    "vscode/terminal-env-injection": 8,
+    "yarn/local-plugin": 34,
+    "yarn/yarn-path": 115
   },
   "by_star_band": {
+    "20k-50k": {
+      "repos": 1760,
+      "with_immediate": 539,
+      "with_agent_surface": 237
+    },
     "50k+": {
-      "repos": 40,
-      "with_immediate": 14,
-      "with_agent_surface": 10
+      "repos": 483,
+      "with_immediate": 178,
+      "with_agent_surface": 98
+    },
+    "5k-20k": {
+      "repos": 7754,
+      "with_immediate": 1786,
+      "with_agent_surface": 544
     }
   },
   "by_language": {
-    "Batchfile": {
+    "ANTLR": {
+      "repos": 1,
+      "with_immediate": 1,
+      "with_agent_surface": 0
+    },
+    "ActionScript": {
+      "repos": 2,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Adblock Filter List": {
       "repos": 1,
       "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Assembly": {
+      "repos": 10,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Astro": {
+      "repos": 9,
+      "with_immediate": 0,
+      "with_agent_surface": 4
+    },
+    "AutoIt": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Awk": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Batchfile": {
+      "repos": 10,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Bicep": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Blade": {
+      "repos": 2,
+      "with_immediate": 1,
       "with_agent_surface": 0
     },
     "C": {
+      "repos": 340,
+      "with_immediate": 33,
+      "with_agent_surface": 10
+    },
+    "C#": {
+      "repos": 224,
+      "with_immediate": 13,
+      "with_agent_surface": 21
+    },
+    "C++": {
+      "repos": 493,
+      "with_immediate": 124,
+      "with_agent_surface": 33
+    },
+    "CMake": {
+      "repos": 2,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "CSS": {
+      "repos": 81,
+      "with_immediate": 10,
+      "with_agent_surface": 0
+    },
+    "Clojure": {
+      "repos": 11,
+      "with_immediate": 3,
+      "with_agent_surface": 2
+    },
+    "CodeQL": {
+      "repos": 1,
+      "with_immediate": 1,
+      "with_agent_surface": 0
+    },
+    "CoffeeScript": {
+      "repos": 6,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Common Lisp": {
+      "repos": 3,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Crystal": {
+      "repos": 2,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Cuda": {
+      "repos": 6,
+      "with_immediate": 4,
+      "with_agent_surface": 0
+    },
+    "Cython": {
+      "repos": 3,
+      "with_immediate": 3,
+      "with_agent_surface": 0
+    },
+    "D": {
       "repos": 1,
       "with_immediate": 0,
       "with_agent_surface": 0
     },
-    "C++": {
+    "DIGITAL Command Language": {
       "repos": 1,
-      "with_immediate": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Dart": {
+      "repos": 54,
+      "with_immediate": 6,
+      "with_agent_surface": 7
+    },
+    "Dockerfile": {
+      "repos": 12,
+      "with_immediate": 3,
       "with_agent_surface": 1
     },
+    "EJS": {
+      "repos": 1,
+      "with_immediate": 1,
+      "with_agent_surface": 0
+    },
+    "Elixir": {
+      "repos": 12,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Emacs Lisp": {
+      "repos": 4,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Erlang": {
+      "repos": 5,
+      "with_immediate": 1,
+      "with_agent_surface": 0
+    },
+    "Fluent": {
+      "repos": 2,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "FreeMarker": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "GDScript": {
+      "repos": 3,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "GLSL": {
+      "repos": 3,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
     "Go": {
+      "repos": 766,
+      "with_immediate": 81,
+      "with_agent_surface": 73
+    },
+    "Go Template": {
+      "repos": 2,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Groovy": {
+      "repos": 3,
+      "with_immediate": 0,
+      "with_agent_surface": 2
+    },
+    "HLSL": {
       "repos": 1,
       "with_immediate": 0,
       "with_agent_surface": 0
     },
     "HTML": {
+      "repos": 215,
+      "with_immediate": 18,
+      "with_agent_surface": 10
+    },
+    "Hack": {
       "repos": 1,
       "with_immediate": 0,
       "with_agent_surface": 0
     },
-    "JavaScript": {
-      "repos": 3,
+    "Haml": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Handlebars": {
+      "repos": 2,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Haskell": {
+      "repos": 9,
       "with_immediate": 3,
-      "with_agent_surface": 2
+      "with_agent_surface": 1
+    },
+    "Haxe": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Java": {
+      "repos": 483,
+      "with_immediate": 44,
+      "with_agent_surface": 29
+    },
+    "JavaScript": {
+      "repos": 1243,
+      "with_immediate": 288,
+      "with_agent_surface": 43
+    },
+    "Jinja": {
+      "repos": 4,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Jsonnet": {
+      "repos": 2,
+      "with_immediate": 1,
+      "with_agent_surface": 0
+    },
+    "Julia": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 1
     },
     "Jupyter Notebook": {
+      "repos": 243,
+      "with_immediate": 65,
+      "with_agent_surface": 4
+    },
+    "Just": {
+      "repos": 2,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Kotlin": {
+      "repos": 126,
+      "with_immediate": 4,
+      "with_agent_surface": 17
+    },
+    "LLVM": {
       "repos": 1,
+      "with_immediate": 1,
+      "with_agent_surface": 0
+    },
+    "Lean": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 1
+    },
+    "Less": {
+      "repos": 3,
+      "with_immediate": 1,
+      "with_agent_surface": 0
+    },
+    "Lua": {
+      "repos": 49,
+      "with_immediate": 2,
+      "with_agent_surface": 0
+    },
+    "MATLAB": {
+      "repos": 3,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "MDX": {
+      "repos": 18,
+      "with_immediate": 6,
+      "with_agent_surface": 4
+    },
+    "MLIR": {
+      "repos": 1,
+      "with_immediate": 1,
+      "with_agent_surface": 0
+    },
+    "Makefile": {
+      "repos": 14,
       "with_immediate": 0,
       "with_agent_surface": 0
     },
     "Markdown": {
-      "repos": 2,
+      "repos": 20,
+      "with_immediate": 3,
+      "with_agent_surface": 0
+    },
+    "Matlab": {
+      "repos": 1,
       "with_immediate": 0,
       "with_agent_surface": 0
     },
-    "Python": {
-      "repos": 9,
-      "with_immediate": 2,
-      "with_agent_surface": 2
+    "Mermaid": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 0
     },
-    "Rust": {
+    "Meson": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Mojo": {
       "repos": 1,
       "with_immediate": 1,
       "with_agent_surface": 1
     },
-    "Shell": {
-      "repos": 3,
-      "with_immediate": 0,
-      "with_agent_surface": 0
-    },
-    "TypeScript": {
-      "repos": 8,
-      "with_immediate": 6,
-      "with_agent_surface": 3
-    },
-    "none": {
-      "repos": 8,
-      "with_immediate": 1,
-      "with_agent_surface": 1
-    }
-  },
-  "by_push_year": {
-    "2024": {
-      "repos": 3,
-      "with_immediate": 0,
-      "with_agent_surface": 0
-    },
-    "2025": {
+    "Mustache": {
       "repos": 2,
       "with_immediate": 1,
       "with_agent_surface": 0
     },
-    "2026": {
-      "repos": 35,
-      "with_immediate": 13,
+    "NSIS": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Nim": {
+      "repos": 2,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Nix": {
+      "repos": 3,
+      "with_immediate": 1,
+      "with_agent_surface": 0
+    },
+    "Nunjucks": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "OCaml": {
+      "repos": 7,
+      "with_immediate": 3,
+      "with_agent_surface": 1
+    },
+    "Objective-C": {
+      "repos": 98,
+      "with_immediate": 2,
+      "with_agent_surface": 1
+    },
+    "Objective-C++": {
+      "repos": 4,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Odin": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "PHP": {
+      "repos": 211,
+      "with_immediate": 50,
       "with_agent_surface": 10
+    },
+    "PLSQL": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "PLpgSQL": {
+      "repos": 1,
+      "with_immediate": 1,
+      "with_agent_surface": 0
+    },
+    "Pascal": {
+      "repos": 4,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Perl": {
+      "repos": 7,
+      "with_immediate": 1,
+      "with_agent_surface": 0
+    },
+    "PlantUML": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Pony": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 1
+    },
+    "PostScript": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "PowerShell": {
+      "repos": 27,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Prolog": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Python": {
+      "repos": 1796,
+      "with_immediate": 761,
+      "with_agent_surface": 190
+    },
+    "QML": {
+      "repos": 5,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "R": {
+      "repos": 3,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Reason": {
+      "repos": 2,
+      "with_immediate": 1,
+      "with_agent_surface": 0
+    },
+    "Ren'Py": {
+      "repos": 1,
+      "with_immediate": 1,
+      "with_agent_surface": 0
+    },
+    "Rich Text Format": {
+      "repos": 5,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Roff": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Ruby": {
+      "repos": 100,
+      "with_immediate": 16,
+      "with_agent_surface": 12
+    },
+    "Rust": {
+      "repos": 399,
+      "with_immediate": 90,
+      "with_agent_surface": 76
+    },
+    "SCSS": {
+      "repos": 23,
+      "with_immediate": 2,
+      "with_agent_surface": 0
+    },
+    "SVG": {
+      "repos": 3,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "SWIG": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 1
+    },
+    "Scala": {
+      "repos": 20,
+      "with_immediate": 3,
+      "with_agent_surface": 0
+    },
+    "Scheme": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "ShaderLab": {
+      "repos": 2,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Shell": {
+      "repos": 245,
+      "with_immediate": 10,
+      "with_agent_surface": 7
+    },
+    "Smarty": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Solidity": {
+      "repos": 4,
+      "with_immediate": 3,
+      "with_agent_surface": 1
+    },
+    "Starlark": {
+      "repos": 2,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Stylus": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Svelte": {
+      "repos": 3,
+      "with_immediate": 1,
+      "with_agent_surface": 0
+    },
+    "Swift": {
+      "repos": 176,
+      "with_immediate": 6,
+      "with_agent_surface": 12
+    },
+    "SystemVerilog": {
+      "repos": 1,
+      "with_immediate": 1,
+      "with_agent_surface": 0
+    },
+    "TeX": {
+      "repos": 22,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Text": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Tree-sitter Query": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "TypeScript": {
+      "repos": 1324,
+      "with_immediate": 784,
+      "with_agent_surface": 293
+    },
+    "V": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "VBScript": {
+      "repos": 2,
+      "with_immediate": 1,
+      "with_agent_surface": 0
+    },
+    "Vala": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Vim Script": {
+      "repos": 26,
+      "with_immediate": 1,
+      "with_agent_surface": 0
+    },
+    "Vim Snippet": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Vim script": {
+      "repos": 6,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "VimL": {
+      "repos": 3,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Visual Basic .NET": {
+      "repos": 4,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Vue": {
+      "repos": 71,
+      "with_immediate": 30,
+      "with_agent_surface": 3
+    },
+    "WebAssembly": {
+      "repos": 2,
+      "with_immediate": 1,
+      "with_agent_surface": 0
+    },
+    "Wikitext": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Wren": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "XML": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "XSLT": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "YAML": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "Zig": {
+      "repos": 7,
+      "with_immediate": 1,
+      "with_agent_surface": 0
+    },
+    "none": {
+      "repos": 823,
+      "with_immediate": 8,
+      "with_agent_surface": 7
     }
   },
-  "repos_truncated": 1,
-  "repos_with_fetch_failures": 0,
-  "repos_with_unreadable_config": 0
+  "by_push_year": {
+    "2015": {
+      "repos": 1,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "2016": {
+      "repos": 3,
+      "with_immediate": 0,
+      "with_agent_surface": 0
+    },
+    "2017": {
+      "repos": 16,
+      "with_immediate": 3,
+      "with_agent_surface": 0
+    },
+    "2018": {
+      "repos": 35,
+      "with_immediate": 4,
+      "with_agent_surface": 0
+    },
+    "2019": {
+      "repos": 52,
+      "with_immediate": 4,
+      "with_agent_surface": 0
+    },
+    "2020": {
+      "repos": 109,
+      "with_immediate": 5,
+      "with_agent_surface": 0
+    },
+    "2021": {
+      "repos": 113,
+      "with_immediate": 6,
+      "with_agent_surface": 0
+    },
+    "2022": {
+      "repos": 233,
+      "with_immediate": 25,
+      "with_agent_surface": 0
+    },
+    "2023": {
+      "repos": 476,
+      "with_immediate": 72,
+      "with_agent_surface": 0
+    },
+    "2024": {
+      "repos": 1132,
+      "with_immediate": 195,
+      "with_agent_surface": 0
+    },
+    "2025": {
+      "repos": 832,
+      "with_immediate": 147,
+      "with_agent_surface": 5
+    },
+    "2026": {
+      "repos": 6995,
+      "with_immediate": 2042,
+      "with_agent_surface": 874
+    }
+  },
+  "repos_truncated": 60,
+  "repos_with_fetch_failures": 53,
+  "repos_with_unreadable_config": 81
 }
