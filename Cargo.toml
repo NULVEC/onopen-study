@@ -13,7 +13,7 @@ publish = false
 # tool a reader can `cargo install` — not from a reimplementation of its rules.
 # Taken from crates.io rather than a local checkout: a study that only
 # reproduces on the machine that produced it does not reproduce.
-onopen = "0.4.0"
+onopen = "0.5.2"
 
 anyhow = "1.0.104"
 clap = { version = "4.6.6", features = ["derive"] }

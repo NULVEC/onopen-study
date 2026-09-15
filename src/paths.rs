@@ -24,6 +24,9 @@ const WATCHED_NAMES: &[&str] = &[
     ".pnpmfile.cjs",
     ".pnpmfile.mjs",
     ".yarnrc.yml",
+    ".npmrc",
+    "bunfig.toml",
+    "gems.rb",
     // cargo
     "Cargo.toml",
     "build.rs",
@@ -32,6 +35,8 @@ const WATCHED_NAMES: &[&str] = &[
     "setup.py",
     "sitecustomize.py",
     "conftest.py",
+    "usercustomize.py",
+    "noxfile.py",
     // environments
     ".envrc",
     "mise.toml",
@@ -43,6 +48,7 @@ const WATCHED_NAMES: &[&str] = &[
     // devcontainer, agents
     ".devcontainer.json",
     ".mcp.json",
+    ".aider.conf.yml",
     // editors
     ".dir-locals.el",
     ".exrc",
@@ -60,6 +66,9 @@ const WATCHED_DIRS: &[&str] = &[
     ".claude",
     ".cursor",
     ".gemini",
+    ".windsurf",
+    ".continue",
+    ".zed",
     ".idea",
     ".devcontainer",
     ".githooks",
@@ -70,8 +79,13 @@ const WATCHED_DIRS: &[&str] = &[
 
 /// Directories onopen refuses to walk into, mirrored here so the study does not
 /// pay to download a `package.json` that the scanner would never open. This is
-/// `discover::ALWAYS_SKIP`; it is not public, so it is repeated rather than
-/// imported, and the fixture test catches it if the two drift apart.
+/// `discover::WALK_SKIP` (called `ALWAYS_SKIP` before onopen 0.5.0); it is not
+/// public, so it is repeated rather than imported.
+///
+/// Since 0.5.0 onopen also walks back into one of these when the git index says
+/// a project there is committed. A skeleton has no index, so a config committed
+/// under `build/` or `dist/` goes uncounted: one more reason the headline number
+/// is a floor.
 const ALWAYS_SKIP: &[&str] = &[
     ".git",
     "node_modules",
@@ -97,6 +111,14 @@ const ALWAYS_SKIP: &[&str] = &[
 /// sub-projects. Matches `onopen::DEFAULT_MAX_DEPTH`, which is what a plain
 /// `onopen ./repo` uses, so the study measures what a reader would measure.
 pub const MAX_DEPTH: usize = onopen::DEFAULT_MAX_DEPTH;
+
+/// Bumped whenever the filter learns about files it did not fetch before, so a
+/// cache built by an older filter can be topped up at the commits it was read
+/// at instead of fetched again from scratch. Revision 1 covered onopen 0.4.0;
+/// revision 2 adds what 0.5.1 started reading: Windsurf, Continue, Zed and Aider
+/// configuration, `.npmrc`, `bunfig.toml`, `gems.rb`, nox, `usercustomize.py`
+/// and `.pth` startup files.
+pub const FILTER_REVISION: u32 = 2;
 
 /// Whether a repository-relative path is one the study downloads.
 ///
@@ -127,7 +149,7 @@ pub fn is_watched(path: &str) -> bool {
         return true;
     }
 
-    WATCHED_NAMES.contains(name) || name.ends_with(".code-workspace")
+    WATCHED_NAMES.contains(name) || name.ends_with(".code-workspace") || name.ends_with(".pth")
 }
 
 /// Files that exist only in a working copy, never in a repository's tree.
@@ -177,6 +199,28 @@ mod tests {
         assert!(!is_watched("src/main.rs"));
         assert!(!is_watched("README.md"));
         assert!(!is_watched("index.js"));
+    }
+
+    #[test]
+    fn formats_onopen_learned_in_0_5_are_fetched() {
+        // onopen's fixtures carry none of these, so the fixture test cannot
+        // notice them missing. They are held here instead.
+        for path in [
+            ".windsurf/config.json",
+            ".continue/config.yaml",
+            ".zed/tasks.json",
+            ".zed/debug.json",
+            ".aider.conf.yml",
+            ".npmrc",
+            "packages/api/.npmrc",
+            "bunfig.toml",
+            "gems.rb",
+            "noxfile.py",
+            "usercustomize.py",
+            "distutils-precedence.pth",
+        ] {
+            assert!(is_watched(path), "{path} is not fetched");
+        }
     }
 
     #[test]

@@ -13,7 +13,7 @@
 //!
 //! Nothing here clones a repository and nothing executes what it downloads.
 
-use onopen_study::{analyze, fetch, github};
+use onopen_study::{analyze, fetch, github, paths};
 
 use analyze::{ScanRecord, StoredReport};
 use anyhow::{Context, Result, bail};
@@ -53,6 +53,12 @@ enum Command {
         #[arg(long)]
         refresh: bool,
     },
+    /// Bring the cache up to the current path filter at the commits it was
+    /// already read at, instead of fetching everything again.
+    Topup {
+        #[arg(long, default_value_t = 8)]
+        jobs: usize,
+    },
     /// Run onopen over every fetched repository.
     Scan {
         #[arg(long, default_value_t = 8)]
@@ -86,6 +92,7 @@ fn main() -> Result<()> {
             jobs,
             refresh,
         } => fetch_all(data, limit, jobs, refresh),
+        Command::Topup { jobs } => topup_all(data, jobs),
         Command::Scan { jobs } => scan_all(data, jobs),
         Command::Report => report(data),
         Command::Verify {
@@ -206,6 +213,68 @@ fn fetch_all(data: &Path, limit: Option<usize>, jobs: usize, refresh: bool) -> R
     println!(
         "fetched {}, failed {}",
         done.load(Ordering::Relaxed),
+        failed.load(Ordering::Relaxed)
+    );
+    Ok(())
+}
+
+fn topup_all(data: &Path, jobs: usize) -> Result<()> {
+    let census = read_census(data)?;
+    let cache = cache_dir(data);
+
+    let mut todo = Vec::new();
+    let mut current = 0;
+    for repo in &census {
+        match fetch::load_meta(&cache, &repo.full_name) {
+            Ok(meta) if meta.filter_revision >= paths::FILTER_REVISION => current += 1,
+            Ok(meta) => todo.push(meta),
+            // Never fetched: `fetch` owns those, at the default branch.
+            Err(_) => {}
+        }
+    }
+    println!(
+        "{} skeletons to top up to filter revision {} ({} already current)",
+        todo.len(),
+        paths::FILTER_REVISION,
+        current
+    );
+
+    let client = Client::from_env();
+    if !client.is_authenticated() {
+        bail!("topup needs GITHUB_TOKEN: it lists every repository again");
+    }
+
+    let total = todo.len();
+    let done = AtomicUsize::new(0);
+    let added = AtomicUsize::new(0);
+    let failed = AtomicUsize::new(0);
+    let pool = rayon::ThreadPoolBuilder::new().num_threads(jobs).build()?;
+
+    pool.install(|| {
+        todo.into_par_iter().for_each(|mut meta| {
+            match fetch::topup(&client, &cache, &mut meta) {
+                Ok(n) => {
+                    added.fetch_add(n, Ordering::Relaxed);
+                    let d = done.fetch_add(1, Ordering::Relaxed) + 1;
+                    if d % 250 == 0 {
+                        eprintln!(
+                            "  [{d}/{total}] files added so far: {}",
+                            added.load(Ordering::Relaxed)
+                        );
+                    }
+                }
+                Err(e) => {
+                    failed.fetch_add(1, Ordering::Relaxed);
+                    eprintln!("  ! {}: {e:#}", meta.repo.full_name);
+                }
+            }
+        });
+    });
+
+    println!(
+        "topped up {}, files added {}, failed {}",
+        done.load(Ordering::Relaxed),
+        added.load(Ordering::Relaxed),
         failed.load(Ordering::Relaxed)
     );
     Ok(())
