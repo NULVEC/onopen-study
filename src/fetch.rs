@@ -37,6 +37,14 @@ pub struct Meta {
     pub failed: Vec<(String, String)>,
     /// Files skipped for being past the size onopen will read.
     pub oversized: Vec<String>,
+    /// Which revision of the path filter built this skeleton. Caches written
+    /// before the field existed were built by revision 1.
+    #[serde(default = "first_filter_revision")]
+    pub filter_revision: u32,
+}
+
+fn first_filter_revision() -> u32 {
+    1
 }
 
 impl Meta {
@@ -94,6 +102,7 @@ pub fn one(client: &Client, cache: &Path, repo: &Repo) -> Result<Meta> {
         files: Vec::new(),
         failed: Vec::new(),
         oversized: Vec::new(),
+        filter_revision: paths::FILTER_REVISION,
     };
 
     for entry in &listing.entries {
@@ -122,6 +131,55 @@ pub fn one(client: &Client, cache: &Path, repo: &Repo) -> Result<Meta> {
     let json = serde_json::to_string_pretty(&meta)?;
     std::fs::write(slot.join("meta.json"), json)?;
     Ok(meta)
+}
+
+/// Bring a skeleton built by an older path filter up to the current one,
+/// without moving it off the commit it was read at.
+///
+/// The listing is requested at `meta.sha`, not at the default branch, so the
+/// files already on disk and the ones added now come from the same commit, and
+/// a rerun measures what changed in onopen rather than what changed in the
+/// repositories. Paths that failed or were oversized before are left as they
+/// were: retrying them would change the study's completeness for a reason that
+/// has nothing to do with the scanner.
+///
+/// Returns how many files were added.
+pub fn topup(client: &Client, cache: &Path, meta: &mut Meta) -> Result<usize> {
+    let tree_dir = tree_path(cache, &meta.repo.full_name);
+    let listing = client.tree(&meta.repo.full_name, &meta.sha)?;
+
+    let mut added = 0;
+    for entry in &listing.entries {
+        if !paths::is_watched(&entry.path)
+            || meta.files.contains(&entry.path)
+            || meta.oversized.contains(&entry.path)
+            || meta.failed.iter().any(|(path, _)| path == &entry.path)
+        {
+            continue;
+        }
+        if entry.size.is_some_and(|s| s > MAX_FILE_BYTES) {
+            meta.oversized.push(entry.path.clone());
+            continue;
+        }
+        match client.blob(&meta.repo.full_name, &meta.sha, &entry.path) {
+            Ok(bytes) => {
+                let dest = tree_dir.join(&entry.path);
+                if let Some(parent) = dest.parent() {
+                    std::fs::create_dir_all(parent)?;
+                }
+                std::fs::write(&dest, &bytes)
+                    .with_context(|| format!("write {}", dest.display()))?;
+                meta.files.push(entry.path.clone());
+                added += 1;
+            }
+            Err(e) => meta.failed.push((entry.path.clone(), e.to_string())),
+        }
+    }
+
+    meta.filter_revision = paths::FILTER_REVISION;
+    let json = serde_json::to_string_pretty(&*meta)?;
+    std::fs::write(meta_path(cache, &meta.repo.full_name), json)?;
+    Ok(added)
 }
 
 /// Read back a fetch that a previous run wrote.

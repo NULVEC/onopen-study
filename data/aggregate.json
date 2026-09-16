@@ -1,23 +1,24 @@
 {
-  "onopen_version": "0.4.0",
+  "onopen_version": "0.5.2",
   "repos_scanned": 9997,
-  "repos_complete": 9808,
-  "repos_partial": 189,
-  "repos_with_immediate": 2503,
-  "repos_with_any_finding": 4123,
-  "repos_clean": 5874,
-  "complete_with_immediate": 2414,
+  "repos_complete": 9803,
+  "repos_partial": 194,
+  "repos_with_immediate": 2510,
+  "repos_with_any_finding": 4132,
+  "repos_clean": 5865,
+  "complete_with_immediate": 2420,
   "repos_with_agent_surface": 879,
   "agent_surface_with_immediate": 548,
-  "findings_total": 43743,
+  "findings_total": 43866,
   "by_severity": {
-    "deferred": 28404,
-    "immediate": 6728,
-    "note": 8611
+    "deferred": 28504,
+    "immediate": 6749,
+    "note": 8613
   },
   "repos_by_family": {
     "agent": 203,
-    "bundler": 5,
+    "bun": 9,
+    "bundler": 10,
     "cargo": 503,
     "composer": 57,
     "devcontainer": 554,
@@ -30,17 +31,19 @@
     "nix": 113,
     "npm": 1899,
     "pnpm": 447,
-    "python": 1530,
+    "python": 1534,
     "vim": 23,
     "vscode": 371,
-    "yarn": 121
+    "yarn": 121,
+    "zed": 13
   },
   "repos_by_rule": {
     "agent/broad-permission-allow": 97,
     "agent/command-hook": 120,
     "agent/cursor-command-hook": 14,
     "agent/cursor-environment-command": 15,
-    "bundler/gemfile-executes-ruby": 5,
+    "bun/preload": 9,
+    "bundler/gemfile-executes-ruby": 10,
     "cargo/build-script": 499,
     "cargo/compiler-wrapper": 82,
     "composer/lifecycle-script": 57,
@@ -60,9 +63,12 @@
     "npm/dependency-from-url": 508,
     "npm/install-lifecycle-script": 1351,
     "npm/other-lifecycle-script": 797,
+    "npm/script-shell": 1,
     "pnpm/dependency-build-approval": 438,
     "pnpm/pnpmfile-hook": 25,
     "python/local-build-backend": 20,
+    "python/noxfile": 34,
+    "python/pth-import": 3,
     "python/pytest-conftest": 892,
     "python/setup-script": 996,
     "python/sitecustomize": 38,
@@ -73,7 +79,8 @@
     "vscode/task-run-on-folder-open": 13,
     "vscode/terminal-env-injection": 8,
     "yarn/local-plugin": 34,
-    "yarn/yarn-path": 115
+    "yarn/yarn-path": 115,
+    "zed/task-command": 13
   },
   "by_star_band": {
     "20k-50k": {
@@ -88,7 +95,7 @@
     },
     "5k-20k": {
       "repos": 7754,
-      "with_immediate": 1786,
+      "with_immediate": 1793,
       "with_agent_surface": 544
     }
   },
@@ -315,7 +322,7 @@
     },
     "Java": {
       "repos": 483,
-      "with_immediate": 44,
+      "with_immediate": 45,
       "with_agent_surface": 29
     },
     "JavaScript": {
@@ -550,7 +557,7 @@
     },
     "Ruby": {
       "repos": 100,
-      "with_immediate": 16,
+      "with_immediate": 19,
       "with_agent_surface": 12
     },
     "Rust": {
@@ -645,7 +652,7 @@
     },
     "TypeScript": {
       "repos": 1324,
-      "with_immediate": 784,
+      "with_immediate": 786,
       "with_agent_surface": 293
     },
     "V": {
@@ -675,7 +682,7 @@
     },
     "Vim script": {
       "repos": 6,
-      "with_immediate": 0,
+      "with_immediate": 1,
       "with_agent_surface": 0
     },
     "VimL": {
@@ -772,7 +779,7 @@
     },
     "2022": {
       "repos": 233,
-      "with_immediate": 25,
+      "with_immediate": 26,
       "with_agent_surface": 0
     },
     "2023": {
@@ -792,11 +799,11 @@
     },
     "2026": {
       "repos": 6995,
-      "with_immediate": 2042,
+      "with_immediate": 2048,
       "with_agent_surface": 874
     }
   },
   "repos_truncated": 60,
-  "repos_with_fetch_failures": 53,
-  "repos_with_unreadable_config": 81
+  "repos_with_fetch_failures": 57,
+  "repos_with_unreadable_config": 82
 }
